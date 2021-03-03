@@ -8,7 +8,7 @@ import org.openqa.selenium.WebDriver;
 public class ProductPage extends AbstractPage {
     public static final Logger LOGGER = Logger.getLogger(ProductPage.class);
 
-    private ExtendedWebElement
+    
 
 
     public ProductPage(WebDriver driver) {

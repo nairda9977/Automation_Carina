@@ -13,7 +13,7 @@ public class HomePage extends AbstractPage {
     @FindBy(id="fat-menu")
     private ExtendedWebElement menuButton;
 
-    @FindBy(xpath = "//*[@class=\"menu-categories__link\"]")
+    @FindBy(xpath = " //*[@class=\"menu-categories__link\"]")
     private ExtendedWebElement product;
 
     public HomePage(WebDriver driver) {
