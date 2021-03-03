@@ -9,20 +9,20 @@ import org.openqa.selenium.support.FindBy;
 public class HomePage extends AbstractPage {
 
     public static final Logger LOGGER = Logger.getLogger(HomePage.class);
-
-    @FindBy(id="fat-menu")
-    private ExtendedWebElement menuButton;
-
-    @FindBy(xpath = " //*[@class=\"menu-categories__link\"]")
-    private ExtendedWebElement product;
+    @FindBy(xpath = "//*[@class='menu-categories__link'][1]")
+    private ExtendedWebElement selectCategory;
 
     public HomePage(WebDriver driver) {
         super(driver);
     }
 
-    private void selectProduct (ExtendedWebElement productOnPage) {
-        productOnPage.click();
+
+    public ProductCategoriesList selectCategory () {
+        selectCategory.click();
+        return new  ProductCategoriesList(getDriver());
     }
+
+
 
 
 }

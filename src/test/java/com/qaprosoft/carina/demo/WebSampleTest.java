@@ -76,6 +76,7 @@ public class WebSampleTest extends AbstractTest {
         // Open GSM Arena home page and verify page is opened
         HomePage homePage = new HomePage(getDriver());
         homePage.open();
+
         Assert.assertTrue(homePage.isPageOpened(), "Home page is not opened");
         // Open model compare page
         FooterMenu footerMenu = homePage.getFooterMenu();
