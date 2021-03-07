@@ -11,7 +11,7 @@ private final String laptPcSub;
         this.laptPcSub=laptPcSub;
     }
 
-    public String getLaptPcSub(){
+    public String getValue (){
         return laptPcSub;
     }
 }
