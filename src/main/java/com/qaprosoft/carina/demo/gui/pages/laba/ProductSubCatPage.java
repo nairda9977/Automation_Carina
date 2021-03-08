@@ -4,8 +4,13 @@ import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebEleme
 import com.qaprosoft.carina.core.gui.AbstractPage;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProductSubCatPage extends AbstractPage {
 
@@ -46,8 +51,32 @@ public class ProductSubCatPage extends AbstractPage {
 
     @FindBy (xpath = "//option[@value=\"1: cheap\"]")
     private ExtendedWebElement fromLowToHeightButton;
+    @FindBy(xpath = "//span[@class=\"goods-tile__price-value\"]")
+    private ExtendedWebElement priceList;
 
-  /*  @FindBy (xpath = (//span[@class="goods-tile__price-value"]))*/
+    public void comparePriceFromLToH () {
+        byRaitingPriceButton.click();
+        fromLowToHeightButton.click();
+        int priceBefore =0;
+        int curentPriceInt=0;
+        List<WebElement> priceElements = driver.findElements(By.xpath("//span[@class=\"goods-tile__price-value\"]"));
+        for (WebElement currentPrice : priceElements){
+                String priceOfProdStr = StringUtils.deleteWhitespace(currentPrice.getText());
+                 curentPriceInt = Integer.parseInt(priceOfProdStr);
+
+
+            if (curentPriceInt>priceBefore){
+
+
+            }
+            priceBefore=curentPriceInt;
+
+            }
+
+    }
+
+
+
 
     public String readModelTitle () {
         assertElementPresent(modelTitle);

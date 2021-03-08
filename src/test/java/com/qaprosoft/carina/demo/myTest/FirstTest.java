@@ -62,8 +62,10 @@ public class FirstTest extends AbstractTest {
        HomePage homePage = new HomePage(getDriver());
        homePage.open();
        ProductSubCatPage productSubCatPage = homePage.searchProduct();
-       productSubCatPage.isPageOpened();
-      Assert.assertTrue(productSubCatPage.comparePricefromLowToHight(), "blablalba");
+/*       productSubCatPage.isPageOpened();*/
+        productSubCatPage.comparePriceFromLToH();
+
+
    }
 
 
