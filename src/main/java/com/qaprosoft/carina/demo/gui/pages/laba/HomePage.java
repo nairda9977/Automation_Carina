@@ -29,9 +29,9 @@ public class HomePage extends AbstractPage {
         return new ProductCategoriesPage(getDriver());
     }
 
-    public ProductSubCatPage searchProduct () {
+    public ProductSubCatPage searchProduct (String q) {
         searchWindow.click();
-        searchWindow.type("вело");
+        searchWindow.type(q);
         searchedProduct.click();
         return new ProductSubCatPage(getDriver());
     }

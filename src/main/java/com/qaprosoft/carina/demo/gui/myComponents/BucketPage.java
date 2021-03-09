@@ -19,6 +19,12 @@ public class BucketPage extends AbstractPage {
     @FindBy (className = "cart-product__title")
     private ExtendedWebElement cartProductTitle;
 
+    @FindBy (id = "cartProductActions0")
+    private ExtendedWebElement actionButton;
+
+    @FindBy (xpath = "//button[@type=\"button\"and contains(text(), \"Видалити\")]")
+    private ExtendedWebElement deleteProdButton;
+
     public String getProductTitleValue () {
         return cartProductTitle.getText();
     }
@@ -32,5 +38,14 @@ public class BucketPage extends AbstractPage {
     public boolean isPageOpened () {
         pageTitle.isElementPresent();
         return true;
+    }
+
+    public boolean deleteProd () {
+        actionButton.click();
+        deleteProdButton.click();
+        if(cartProductTitle.isElementNotPresent(1)){
+            return true;
+        }
+        return false;
     }
 }

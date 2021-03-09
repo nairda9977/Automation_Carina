@@ -14,6 +14,7 @@ public class ProductInfo extends AbstractPage {
     @FindBy (className = "product__title")
     private ExtendedWebElement pageTitle;
 
+
     public boolean isPageOpened () {
         pageTitle.assertElementPresent();;
         return true;
@@ -23,10 +24,16 @@ public class ProductInfo extends AbstractPage {
         super(driver);
     }
 
+    public ExtendedWebElement getBuyButton () {
+        return buyButton;
+    }
+
 
 
     public BucketPage buyProduct () {
         buyButton.click();
         return new BucketPage(getDriver());
     }
+
+
 }

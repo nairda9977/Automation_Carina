@@ -46,37 +46,68 @@ public class ProductSubCatPage extends AbstractPage {
     @FindBy(xpath = "//span[@class=\"goods-tile__price-value\"]")
     private ExtendedWebElement price;
 
+    @FindBy (xpath = "//span[@class=\"goods-tile__price-value\"]")
+    private List <ExtendedWebElement> prices;
+
     @FindBy (xpath = "//select[@class=\"select-css ng-untouched ng-pristine ng-valid\"]")
-    private ExtendedWebElement byRaitingPriceButton;
+    private ExtendedWebElement sortProdByRatingPriceButton;
 
     @FindBy (xpath = "//option[@value=\"1: cheap\"]")
     private ExtendedWebElement fromLowToHeightButton;
+
     @FindBy(xpath = "//span[@class=\"goods-tile__price-value\"]")
     private ExtendedWebElement priceList;
 
-    public void comparePriceFromLToH () {
-        byRaitingPriceButton.click();
+    @FindBy (xpath = "//span[@class=\"goods-tile__title\"]")
+    private List <ExtendedWebElement> productTitles;
+
+    @FindBy (xpath = "//button[@type=\"button\"and contains (text(), \"Купити в кредит\")]")
+    private ExtendedWebElement creditButton;
+
+    public ProductSubCatPage(WebDriver driver) {
+        super(driver);
+    }
+
+    public boolean comparePriceFromLowToHigh () {
+        sortProdByRatingPriceButton.click();
         fromLowToHeightButton.click();
         int priceBefore =0;
         int curentPriceInt=0;
-        List<WebElement> priceElements = driver.findElements(By.xpath("//span[@class=\"goods-tile__price-value\"]"));
-        for (WebElement currentPrice : priceElements){
+        int sizeOfEl = prices.size();
+        for (ExtendedWebElement currentPrice : prices){
                 String priceOfProdStr = StringUtils.deleteWhitespace(currentPrice.getText());
                  curentPriceInt = Integer.parseInt(priceOfProdStr);
-
-
-            if (curentPriceInt>priceBefore){
-
-
+            System.out.println("current Price : "+curentPriceInt+"  priceBefore : "+priceBefore);
+            for (int i = 0; i <= sizeOfEl; i++){
+                if(curentPriceInt<priceBefore){
+                    return false;
+                }
             }
             priceBefore=curentPriceInt;
-
             }
-
+        return true;
     }
 
+    public boolean productsPricesCheckOnSubCatPage () {
+      for (ExtendedWebElement productPrice : prices){
+            if(productPrice.getText().isEmpty()){
+                return false;
+            }
+          System.out.println("Product price is :"+productPrice);
+        }
+      return true;
+    }
 
-
+    public boolean productsTitlesCheck () {
+        for (ExtendedWebElement productTitle : productTitles){
+            String productTitleStr = productTitle.getText();
+                if (productTitleStr.isEmpty()) {
+                    return false;
+                }
+                System.out.println("Prod title is : "+ productTitleStr);
+        }
+        return true;
+    }
 
     public String readModelTitle () {
         assertElementPresent(modelTitle);
@@ -89,14 +120,11 @@ public class ProductSubCatPage extends AbstractPage {
         return true;
     }
 
-    public ProductSubCatPage(WebDriver driver) {
-        super(driver);
-    }
 
-    public LeftBarSearchResult searchBrandProduct() {
-        searchTextField.type("Acer");
+    public ProductSubCatPage searchBrandProduct(String q) {
+        searchTextField.type(q);
         selectButton.click();
-        return new LeftBarSearchResult(getDriver());
+        return new ProductSubCatPage(getDriver());
     }
 
     public String getProductTitleValue() {
@@ -114,39 +142,44 @@ public class ProductSubCatPage extends AbstractPage {
         return priceInt;
     }
 
-    public LeftBarSearchResult inputPrice() {
-        priceMinSearchWindow.type("3000");
-        priceMaxSearchWindow.type("7000");
+    public String inputPrice(String min, String max) {
+        priceMinSearchWindow.type(min);
+        priceMaxSearchWindow.type(max);
         priceButton.click();
-        return new LeftBarSearchResult(getDriver());
+        return min+"|"+max;
     }
 
-    int priceMin = 3000;
-    int priceMax = 7000;
-    public boolean comparePrice() {
-        if (getPriceValue() > priceMin && getPriceValue() < priceMax) {
+    public boolean isProductBetweenHightAndLowPrices(String min, String max) {
+        priceMinSearchWindow.type(min);
+        priceMaxSearchWindow.type(max);
+        priceButton.click();
+        int minPriceInt = Integer.parseInt(min);
+        int maxPriceInt = Integer.parseInt(max);
+        if (getPriceValue() > minPriceInt && getPriceValue() < maxPriceInt) {
             LOGGER.info("value is between MinMax price");
             return true;
         }
         return false;
     }
 
-    public boolean comparePricefromLowToHight () {
-    byRaitingPriceButton.click();
-    fromLowToHeightButton.click();
-    int box =0;
-    int priceForCompare =getPriceValue();
+    public boolean isAllProdInfoPagesHaveBuyButton() {
+       int countProdTitles = productTitles.size();
 
-    for (int i=0; i<5;i++){
-      priceForCompare =  getPriceValue();
-        System.out.println("price is :" +priceForCompare);
-        if(box<priceForCompare){
-
-            return true;
+        for (ExtendedWebElement product : productTitles) {
+            for (int i = 0; i <countProdTitles; i++) {
+                ExtendedWebElement productIndex = productTitles.get(i);
+                productIndex.click();
+                ProductInfo productInfo = new ProductInfo(getDriver());
+                if (productInfo.getBuyButton().isElementNotPresent(1)) {
+                    return false;
+                }
+                driver.navigate().back();
+            }
         }
-        box = priceForCompare;
+        return true;
     }
-    return false;
-    }
+
+
+
 
 }
