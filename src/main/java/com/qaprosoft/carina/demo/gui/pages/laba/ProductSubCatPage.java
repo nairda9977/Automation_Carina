@@ -68,15 +68,14 @@ public class ProductSubCatPage extends AbstractPage {
         super(driver);
     }
 
-    public boolean comparePriceFromLowToHigh () {
+    public boolean sortProductsByPriceCheck () {
         sortProdByRatingPriceButton.click();
         fromLowToHeightButton.click();
         int priceBefore =0;
-        int curentPriceInt=0;
         int sizeOfEl = prices.size();
         for (ExtendedWebElement currentPrice : prices){
                 String priceOfProdStr = StringUtils.deleteWhitespace(currentPrice.getText());
-                 curentPriceInt = Integer.parseInt(priceOfProdStr);
+               int  curentPriceInt = Integer.parseInt(priceOfProdStr);
             System.out.println("current Price : "+curentPriceInt+"  priceBefore : "+priceBefore);
             for (int i = 0; i <= sizeOfEl; i++){
                 if(curentPriceInt<priceBefore){
@@ -142,14 +141,8 @@ public class ProductSubCatPage extends AbstractPage {
         return priceInt;
     }
 
-    public String inputPrice(String min, String max) {
-        priceMinSearchWindow.type(min);
-        priceMaxSearchWindow.type(max);
-        priceButton.click();
-        return min+"|"+max;
-    }
 
-    public boolean isProductBetweenHightAndLowPrices(String min, String max) {
+    public boolean isProductBetweenMinAndMaxPrices(String min, String max) {
         priceMinSearchWindow.type(min);
         priceMaxSearchWindow.type(max);
         priceButton.click();

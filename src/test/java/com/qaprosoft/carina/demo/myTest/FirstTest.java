@@ -53,7 +53,7 @@ public class FirstTest extends AbstractTest {
         Assert.assertTrue(productCategoriesPage.isPageOpened(), "Product categories page is not opened");
         ProductSubCatPage productSubCatPage = productCategoriesPage.selectSubcategoryProduct(LaptopPcSubcategory.LAPTOPS);
         Assert.assertTrue(productSubCatPage.isPageOpened(), "Product subcategory page is not opened");
-        Assert.assertTrue(productSubCatPage.isProductBetweenHightAndLowPrices("3000", "7000"), "result is not between MinMax");
+        Assert.assertTrue(productSubCatPage.isProductBetweenMinAndMaxPrices("3000", "7000"), "result is not between MinMax");
    }
 
    @Test
@@ -73,12 +73,12 @@ public class FirstTest extends AbstractTest {
    }
 
    @Test
-    public void fromLowToHighPriceProducts () {
+    public void sortProductsByPriceCheck () {
        HomePage homePage = new HomePage(getDriver());
        homePage.open();
        ProductSubCatPage productSubCatPage = homePage.searchProduct("клавиатура");
        productSubCatPage.isPageOpened();
-       Assert.assertTrue(productSubCatPage.comparePriceFromLowToHigh());
+       Assert.assertTrue(productSubCatPage.sortProductsByPriceCheck());
    }
 
    @Test
