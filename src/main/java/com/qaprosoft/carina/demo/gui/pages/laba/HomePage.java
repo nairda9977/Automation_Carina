@@ -3,6 +3,7 @@ package com.qaprosoft.carina.demo.gui.pages.laba;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.gui.AbstractPage;
 import com.qaprosoft.carina.demo.enums.ProductCategories;
+import com.qaprosoft.carina.demo.gui.myComponents.SideMenuPage;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
@@ -19,6 +20,11 @@ public class HomePage extends AbstractPage {
     @FindBy (className = "search-suggest__item")
     private ExtendedWebElement searchedProduct;
 
+    @FindBy (xpath = "//*[@aria-label='Відкрити меню']")
+    private ExtendedWebElement burgerButton;
+
+
+
     public HomePage(WebDriver driver) {
         super(driver);
     }
@@ -29,11 +35,16 @@ public class HomePage extends AbstractPage {
         return new ProductCategoriesPage(getDriver());
     }
 
-    public ProductSubCatPage searchProduct (String q) {
+    public ProductSubCategoryPage searchProduct (String productName) {
         searchWindow.click();
-        searchWindow.type(q);
+        searchWindow.type(productName);
         searchedProduct.click();
-        return new ProductSubCatPage(getDriver());
+        return new ProductSubCategoryPage(getDriver());
+    }
+
+    public SideMenuPage openSideMenuPage () {
+        burgerButton.click();
+        return new SideMenuPage(getDriver());
     }
 
 

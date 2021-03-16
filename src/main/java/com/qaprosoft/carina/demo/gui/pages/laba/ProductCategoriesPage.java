@@ -23,18 +23,17 @@ public class ProductCategoriesPage extends AbstractPage {
         super(driver);
     }
 
-    public ProductSubCatPage selectSubcategoryProduct (LaptopPcSubcategory laptopPcSubcategory) {
+    public ProductSubCategoryPage selectSubcategoryProduct (LaptopPcSubcategory laptopPcSubcategory) {
         selectCategoryProduct.format(laptopPcSubcategory.getValue()).click();
-        return new ProductSubCatPage(getDriver());
+        return new ProductSubCategoryPage(getDriver());
     }
-    public ProductSubCatPage selectSubcategoryProduct (KidsProdSubcategory kidsProdSubcategory) {
+    public ProductSubCategoryPage selectSubcategoryProduct (KidsProdSubcategory kidsProdSubcategory) {
         selectCategoryProduct.format(kidsProdSubcategory.getValue()).click();
-        return new ProductSubCatPage(getDriver());
+        return new ProductSubCategoryPage(getDriver());
     }
 
     public boolean isPageOpened () {
-        productCatPageTitle.assertElementPresent();;
-        return true;
+        return productCatPageTitle.isElementPresent();
     }
 
 

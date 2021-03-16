@@ -6,7 +6,7 @@ import com.qaprosoft.carina.demo.gui.myComponents.BucketPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
-public class ProductInfo extends AbstractPage {
+public class ProductInfoPage extends AbstractPage {
 
      @FindBy (className = "product__buy")
     private ExtendedWebElement buyButton;
@@ -14,13 +14,15 @@ public class ProductInfo extends AbstractPage {
     @FindBy (className = "product__title")
     private ExtendedWebElement pageTitle;
 
+    @FindBy (xpath = "//p[@class='product__code detail-code']")
+    private ExtendedWebElement productId;
+
 
     public boolean isPageOpened () {
-        pageTitle.assertElementPresent();;
-        return true;
+        return pageTitle.isElementPresent();
     }
 
-    public ProductInfo(WebDriver driver) {
+    public ProductInfoPage(WebDriver driver) {
         super(driver);
     }
 
@@ -33,6 +35,10 @@ public class ProductInfo extends AbstractPage {
     public BucketPage buyProduct () {
         buyButton.click();
         return new BucketPage(getDriver());
+    }
+
+    public ExtendedWebElement getProductId () {
+        return productId;
     }
 
 

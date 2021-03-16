@@ -4,17 +4,14 @@ import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebEleme
 import com.qaprosoft.carina.core.gui.AbstractPage;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class ProductSubCatPage extends AbstractPage {
+public class ProductSubCategoryPage extends AbstractPage {
 
-    private final static Logger LOGGER = Logger.getLogger(ProductSubCatPage.class);
+    private final static Logger LOGGER = Logger.getLogger(ProductSubCategoryPage.class);
 
     @FindBy(xpath = "//*[@name=\"searchline\"][1]")
     private ExtendedWebElement searchTextField;
@@ -64,48 +61,62 @@ public class ProductSubCatPage extends AbstractPage {
     @FindBy (xpath = "//button[@type=\"button\"and contains (text(), \"Купити в кредит\")]")
     private ExtendedWebElement creditButton;
 
-    public ProductSubCatPage(WebDriver driver) {
+
+
+    public ProductSubCategoryPage(WebDriver driver) {
         super(driver);
     }
 
-    public boolean sortProductsByPriceCheck () {
+    public boolean isProductsSortedByPriceCheck () {
+        boolean sortProductsByPriceCheck =false;
         sortProdByRatingPriceButton.click();
         fromLowToHeightButton.click();
         int priceBefore =0;
         int sizeOfEl = prices.size();
-        for (ExtendedWebElement currentPrice : prices){
+        if (sizeOfEl!=0 ) {
+            for (ExtendedWebElement currentPrice : prices) {
                 String priceOfProdStr = StringUtils.deleteWhitespace(currentPrice.getText());
-               int  curentPriceInt = Integer.parseInt(priceOfProdStr);
-            System.out.println("current Price : "+curentPriceInt+"  priceBefore : "+priceBefore);
-            for (int i = 0; i <= sizeOfEl; i++){
-                if(curentPriceInt<priceBefore){
+                int curentPriceInt = Integer.parseInt(priceOfProdStr);
+                LOGGER.info("current Price : " + curentPriceInt + "  priceBefore : " + priceBefore);
+                for (int i = 0; i <= sizeOfEl; i++) {
+                    if (curentPriceInt < priceBefore) {
+                        return false;
+                    }
+                }
+                priceBefore = curentPriceInt;
+            }
+            return true;
+        }
+        return sortProductsByPriceCheck;
+    }
+
+    public boolean issAllProductsHavePricesOnSubCatPage () {
+        boolean productsPricesCheckOnSubCatPage =false;
+        if (!prices.isEmpty()) {
+            for (ExtendedWebElement productPrice : prices) {
+                if (productPrice.getText().isEmpty()) {
                     return false;
                 }
+                LOGGER.info("Product price is :" + productPrice);
             }
-            priceBefore=curentPriceInt;
-            }
-        return true;
-    }
-
-    public boolean productsPricesCheckOnSubCatPage () {
-      for (ExtendedWebElement productPrice : prices){
-            if(productPrice.getText().isEmpty()){
-                return false;
-            }
-          System.out.println("Product price is :"+productPrice);
+            return true;
         }
-      return true;
+      return productsPricesCheckOnSubCatPage;
     }
 
-    public boolean productsTitlesCheck () {
-        for (ExtendedWebElement productTitle : productTitles){
-            String productTitleStr = productTitle.getText();
+    public boolean isAllProductsHaveTitles () {
+        boolean productsTitlesCheck =false;
+        if (!productTitles.isEmpty()) {
+            for (ExtendedWebElement productTitle : productTitles) {
+                String productTitleStr = productTitle.getText();
                 if (productTitleStr.isEmpty()) {
                     return false;
                 }
-                System.out.println("Prod title is : "+ productTitleStr);
+              LOGGER.info("Prod title is : " + productTitleStr);
+            }
+            return true;
         }
-        return true;
+        return productsTitlesCheck;
     }
 
     public String readModelTitle () {
@@ -115,24 +126,23 @@ public class ProductSubCatPage extends AbstractPage {
     }
 
     public boolean isPageOpened() {
-        pageTitle.assertElementPresent();
-        return true;
+       return  pageTitle.isElementPresent();
     }
 
 
-    public ProductSubCatPage searchBrandProduct(String q) {
+    public ProductSubCategoryPage searchBrandProduct(String q) {
         searchTextField.type(q);
         selectButton.click();
-        return new ProductSubCatPage(getDriver());
+        return new ProductSubCategoryPage(getDriver());
     }
 
     public String getProductTitleValue() {
         return anyProduct.getText();
     }
 
-    public ProductInfo clickOnProduct() {
+    public ProductInfoPage clickOnProduct() {
         anyProduct.click();
-        return new ProductInfo(getDriver());
+        return new ProductInfoPage(getDriver());
     }
 
     public int getPriceValue() {
@@ -156,23 +166,45 @@ public class ProductSubCatPage extends AbstractPage {
     }
 
     public boolean isAllProdInfoPagesHaveBuyButton() {
+       boolean isAllProdInfoPagesHaveBuyButton = false;
        int countProdTitles = productTitles.size();
+       if (countProdTitles!=0) {
+           for (ExtendedWebElement product : productTitles) {
+               for (int i = 0; i < countProdTitles; i++) {
+                   ExtendedWebElement productIndex = productTitles.get(i);
+                   productIndex.click();
+                   ProductInfoPage productInfoPage = new ProductInfoPage(getDriver());
+                   LOGGER.info("product index : " + productIndex);
+                   if (productInfoPage.getBuyButton().isElementNotPresent(1)) {
+                       return false;
+                   }
+                   driver.navigate().back();
+               }
+               return true;
+           }
+       }
+        return isAllProdInfoPagesHaveBuyButton;
+    }
 
-        for (ExtendedWebElement product : productTitles) {
-            for (int i = 0; i <countProdTitles; i++) {
+    public boolean isAllProductHaveId () {
+    if (!productTitles.isEmpty()){
+        int productTitlesSize = 5;
+        for (Object product : productTitles){
+            for (int i =0; i<productTitlesSize;i++) {
                 ExtendedWebElement productIndex = productTitles.get(i);
                 productIndex.click();
-                ProductInfo productInfo = new ProductInfo(getDriver());
-                if (productInfo.getBuyButton().isElementNotPresent(1)) {
+                ProductInfoPage productInfoPage = new ProductInfoPage(getDriver());
+                if (productInfoPage.getProductId().getText().isEmpty()){
                     return false;
                 }
                 driver.navigate().back();
             }
+            return true;
         }
-        return true;
+
     }
-
-
+        return false;
+    }
 
 
 }
