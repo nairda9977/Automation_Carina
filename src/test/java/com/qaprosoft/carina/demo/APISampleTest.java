@@ -39,7 +39,16 @@ import com.qaprosoft.carina.demo.api.PostUserMethod;
  */
 public class APISampleTest extends AbstractTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
-    
+
+
+
+    @Test
+    public void createLocation () throws Exception{
+        PostUserMethod api = new PostUserMethod();
+        api.expectResponseStatus(HttpResponseStatusType.OK_200);
+        api.callAPI();
+        api.validateResponse();
+    }
 
     @Test(description = "JIRA#DEMO-0001")
     @MethodOwner(owner = "qpsdemo")
