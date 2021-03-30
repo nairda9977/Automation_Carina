@@ -1,6 +1,11 @@
 package com.qaprosoft.carina.demo;
 
+import io.appium.java_client.remote.AndroidMobileCapabilityType;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.json.JSONObject;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -16,12 +21,16 @@ import com.qaprosoft.carina.demo.mobile.gui.pages.common.WelcomePageBase;
 import com.qaprosoft.carina.demo.utils.MobileContextUtils;
 import com.qaprosoft.carina.demo.utils.MobileContextUtils.View;
 
+import java.net.URL;
+import java.util.concurrent.TimeUnit;
+
 
 public class MobileSampleTest extends AbstractTest implements IMobileUtils {
 
     @Test(description = "JIRA#DEMO-0011")
     @MethodOwner(owner = "qpsdemo")
     public void testLoginUser() {
+
         String username = "Test user";
         String password = RandomStringUtils.randomAlphabetic(10);
         WelcomePageBase welcomePage = initPage(getDriver(), WelcomePageBase.class);
@@ -39,6 +48,8 @@ public class MobileSampleTest extends AbstractTest implements IMobileUtils {
 	@Test(description = "JIRA#DEMO-0011")
     @MethodOwner(owner = "qpsdemo")
     public void testWebView() {
+
+
         WelcomePageBase welcomePage = initPage(getDriver(), WelcomePageBase.class);
         LoginPageBase loginPage = welcomePage.clickNextBtn();
         loginPage.login();

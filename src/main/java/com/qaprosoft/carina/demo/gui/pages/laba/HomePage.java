@@ -6,7 +6,9 @@ import com.qaprosoft.carina.demo.enums.ProductCategories;
 import com.qaprosoft.carina.demo.gui.myComponents.SideMenuPage;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+
 
 public class HomePage extends AbstractPage {
 
@@ -46,6 +48,7 @@ public class HomePage extends AbstractPage {
         burgerButton.click();
         return new SideMenuPage(getDriver());
     }
+
 
 
 
