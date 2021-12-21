@@ -1,0 +1,66 @@
+{
+  "results": [
+    {
+      "gender": "skip",
+      "name": {
+        "title": "skip",
+        "first": "skip",
+        "last": "skip"
+      },
+      "location": {
+        "street": {
+          "number": "skip",
+          "name": "skip"
+        },
+        "city": "skip",
+        "state": "skip",
+        "country": "skip",
+        "postcode": "skip",
+        "coordinates": {
+          "latitude": "skip",
+          "longitude": "skip"
+        },
+        "timezone": {
+          "offset": "skip",
+          "description": "skip"
+        }
+      },
+      "email": "skip",
+      "login": {
+        "uuid": "skip",
+        "username": "skip",
+        "password": "skip",
+        "salt": "skip",
+        "md5": "skip",
+        "sha1": "skip",
+        "sha256": "skip"
+      },
+      "dob": {
+        "date": "skip",
+        "age": "skip"
+      },
+      "registered": {
+        "date": "skip",
+        "age": "skip"
+      },
+      "phone": "skip",
+      "cell": "skip",
+      "id": {
+        "name": "skip",
+        "value": "skip"
+      },
+      "picture": {
+        "large": "skip",
+        "medium": "skip",
+        "thumbnail": "skip"
+      },
+      "nat": "skip"
+    }
+  ],
+  "info": {
+    "seed": "skip",
+    "results": 1,
+    "page": 1,
+    "version": "1.3"
+  }
+}
